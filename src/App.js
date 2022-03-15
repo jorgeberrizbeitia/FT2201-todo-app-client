@@ -10,12 +10,34 @@ import Error from './pages/Error';
 import NotFound from './pages/NotFound';
 
 import Navbar from "./components/Navbar"
+import Login from './pages/auth/Login';
+import Signup from './pages/auth/Signup';
+import { useEffect, useState } from 'react';
+import { verifyService } from './services/auth.services';
 
 function App() {
+
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+
+  useEffect(() => {
+    verifyUser()
+  }, [])
+
+  const verifyUser = async () => {
+    // conectar con el server y validar el token
+    try {
+      await verifyService()
+      // cambiar el isLoggedIn state a true
+      setIsLoggedIn(true)
+    } catch(err) {
+      setIsLoggedIn(false)
+    }
+  }
+
   return (
     <div className="App">
 
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
 
       <Routes>
 
@@ -23,6 +45,9 @@ function App() {
         <Route path="/todos" element={ <TodoList /> } />
         <Route path="/todos/:id/details" element={ <TodoDetails /> } />
         <Route path="/todos/:id/edit" element={ <TodoEdit /> } />
+
+        <Route path="/signup" element={ <Signup /> } />
+        <Route path="/login" element={ <Login setIsLoggedIn={setIsLoggedIn}/> } />
 
         <Route path="/error" element={ <Error /> } />
         <Route path="*" element={ <NotFound /> } /> 

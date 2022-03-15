@@ -2,7 +2,7 @@
 
 function Error() {
   return (
-    <div>Error</div>
+    <div>Error, nuestros devs de backend metieron la pata</div>
   )
 }
 

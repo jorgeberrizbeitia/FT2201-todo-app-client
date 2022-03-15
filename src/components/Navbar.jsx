@@ -1,7 +1,18 @@
 import { NavLink } from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
+function Navbar(props) {
 
-function Navbar() {
+  const { isLoggedIn, setIsLoggedIn } = props
+
+  const navigate = useNavigate()
+
+  const handleLogOut = () => {
+    setIsLoggedIn(false)
+    localStorage.removeItem("authToken")
+    navigate("/login")
+  }
+
   return (
     <div>
     
@@ -9,10 +20,22 @@ function Navbar() {
         Home
       </NavLink>
 
-      <NavLink to="/todos">
-        Todos
-      </NavLink>
-    
+      { 
+        isLoggedIn && <NavLink to="/todos">Todos</NavLink>
+      }
+
+      {
+        !isLoggedIn && <NavLink to="/signup">Signup</NavLink>
+      }
+
+      {
+        !isLoggedIn && <NavLink to="/login">Login</NavLink>
+      }
+
+      {
+        isLoggedIn && <button onClick={handleLogOut}>Log out</button>
+      }
+      
     </div>
   )
 }

@@ -1,10 +1,9 @@
 
-// aqui tendremos todas las llamadas a API de BE para ToDos
 
 import axios from "axios";
 
 const service = axios.create({
-  baseURL: `${process.env.REACT_APP_SERVER_URL}/todos`
+  baseURL: `${process.env.REACT_APP_SERVER_URL}/auth`
 })
 
 // esta configuracion nos permite enviar el Token en cada request que se haga
@@ -20,30 +19,20 @@ service.interceptors.request.use((config) => {
   return config;
 })
 
-const getAllTodosService = () => {
-  return service.get("/")
+const signupService = (user) => {
+  return service.post("/signup", user)
 }
 
-const addNewTodoService = (newTodo) => {
-  return service.post("/", newTodo)
+const loginService = (user) => {
+  return service.post("/login", user)
 }
 
-const getTodoDetailsService = (id) => {
-  return service.get(`/${id}`)
-}
-
-const deleteTodoService = (id) => {
-  return service.delete(`/${id}`)
-}
-
-const updateTodoService = (id, updatedTodo) => {
-  return service.patch(`/${id}`, updatedTodo)
+const verifyService = () => {
+  return service.get("/verify")
 }
 
 export {
-  getAllTodosService,
-  addNewTodoService,
-  getTodoDetailsService,
-  deleteTodoService,
-  updateTodoService
-} 
+  signupService,
+  loginService,
+  verifyService
+}

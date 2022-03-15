@@ -21,7 +21,11 @@ function TodoList() {
       const response = await getAllTodosService()
       setAllTodos(response.data)
     } catch(err) {
-      navigate("/error")
+      if (err.response.status === 401) {
+        navigate("/login")
+      } else {
+        navigate("/error")
+      }
     }
   }
 
