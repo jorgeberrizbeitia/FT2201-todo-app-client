@@ -12,12 +12,16 @@ import NotFound from './pages/NotFound';
 import Navbar from "./components/Navbar"
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { verifyService } from './services/auth.services';
+
+import { ThemeContext } from "./context/theme.context"
 
 function App() {
 
   const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+
+  const { darkMode, setDarkMode, switchTheme } = useContext(ThemeContext)
 
   useEffect(() => {
     verifyUser()
@@ -35,7 +39,9 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App" style={switchTheme()}>
+
+      <button onClick={() => setDarkMode(!darkMode)}>Change Theme</button>
 
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
 
